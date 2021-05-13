@@ -27,6 +27,11 @@ jobs:
       run: dotnet test --no-build --verbosity normal
     - name: Publish
       run: dotnet publish
+    - name: Purge files in container
+      uses: azure/CLI@v1
+      with:
+        azcliversion: 2.0.72
+        inlineScript: az storage blob delete-batch --account-name mediumgithubaction --account-key ${{ secrets.STORAGE_KEY }} -s '$web'
     - name: Upload to blob storage
       uses: azure/CLI@v1
       with:
