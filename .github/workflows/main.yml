@@ -1,0 +1,37 @@
+name: blazor-wasb
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Azure Auth
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CRED }}
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 5.0.x
+    - name: Restore dependencies
+      run: dotnet restore
+    - name: Build
+      run: dotnet build --no-restore
+    - name: Test
+      run: dotnet test --no-build --verbosity normal
+    - name: Publish
+      run: dotnet publish
+    - name: Upload to blob storage
+      uses: azure/CLI@v1
+      with:
+        azcliversion: 2.0.72
+        inlineScript: cd blazor-wasb-github-action/bin/Debug/net5.0/publish/wwwroot ; pwd; 
+          az storage blob upload-batch --account-name mediumgithubaction --account-key ${{ secrets.STORAGE_KEY }} -d '$web' -s .
+    - name: Azure logout
+      run: az logout
