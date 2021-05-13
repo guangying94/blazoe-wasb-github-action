@@ -31,12 +31,12 @@ jobs:
       uses: azure/CLI@v1
       with:
         azcliversion: 2.0.72
-        inlineScript: az storage container delete --account-name bb236wasb --account-key ${{ secrets.STORAGE_KEY }} -n '$web'
+        inlineScript: az storage container delete --account-name mediumgithubaction --account-key ${{ secrets.STORAGE_KEY }} -n '$web'
     - name: Create container
       uses: azure/CLI@v1
       with:
         azcliversion: 2.0.72
-        inlineScript: sleep 10; az storage container create --account-name bb236wasb --account-key ${{ secrets.STORAGE_KEY }} -n '$web'
+        inlineScript: sleep 10; az storage container create --account-name mediumgithubaction --account-key ${{ secrets.STORAGE_KEY }} -n '$web'
     - name: Upload to blob storage
       uses: azure/CLI@v1
       with:
