@@ -41,7 +41,7 @@ jobs:
       uses: azure/CLI@v1
       with:
         azcliversion: 2.0.72
-        inlineScript: cd bb236-expenses/bin/Debug/net5.0/publish/wwwroot ; pwd; 
-          az storage blob upload-batch --account-name bb236wasb --account-key ${{ secrets.AZURE_STORAGE_KEY }} -d '$web' -s .
+        inlineScript: cd blazor-wasb-github-action/bin/Debug/net5.0/publish/wwwroot ; pwd; 
+          az storage blob upload-batch --account-name mediumgithubaction --account-key ${{ secrets.AZURE_STORAGE_KEY }} -d '$web' -s .
     - name: Azure logout
       run: az logout
